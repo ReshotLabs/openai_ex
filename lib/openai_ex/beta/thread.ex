@@ -13,7 +13,7 @@ defmodule OpenaiEx.Beta.Thread do
     :messages
   ]
 
-  @completion_url "/threads"
+  @threads_url "/threads"
 
   @beta_string "assistants=v1"
 
@@ -63,7 +63,7 @@ defmodule OpenaiEx.Beta.Thread do
   def create(openai = %OpenaiEx{}, thread = %{}) do
     openai
     |> Map.put(:beta, @beta_string)
-    |> OpenaiEx.Http.post(@completion_url, json: thread)
+    |> OpenaiEx.Http.post(@threads_url, json: thread)
   end
 
   @doc """
@@ -83,27 +83,26 @@ defmodule OpenaiEx.Beta.Thread do
   def retrieve(openai = %OpenaiEx{}, thread_id) do
     openai
     |> Map.put(:beta, @beta_string)
-    |> OpenaiEx.Http.get("#{@completion_url}/#{thread_id}")
+    |> OpenaiEx.Http.get("#{@threads_url}/#{thread_id}")
   end
 
   @doc """
-  Adds a message to an existing thread.
+  Deletes a thread.
 
   ## Arguments
 
   - `openai`: The OpenAI configuration.
-  - `thread_id`: The ID of the thread to which the message will be added.
-  - `message`: The message to add, as a map.
+  - `thread_id`: The ID of the thread to delete.
 
   ## Returns
 
-  A map containing the API response.
+  A map containing the fields of the thread delete response.
 
-  See https://platform.openai.com/docs/api-reference/threads/addMessage for more information.
+  https://platform.openai.com/docs/api-reference/threads/deleteThread
   """
-  def add_message(openai = %OpenaiEx{}, thread_id, message = %{}) do
+  def delete(openai = %OpenaiEx{}, thread_id) do
     openai
     |> Map.put(:beta, @beta_string)
-    |> OpenaiEx.Http.post("#{@completion_url}/#{thread_id}/messages", json: message)
+    |> OpenaiEx.Http.delete("#{@threads_url}/#{thread_id}")
   end
 end
