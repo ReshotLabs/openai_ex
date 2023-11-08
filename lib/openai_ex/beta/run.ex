@@ -103,6 +103,6 @@ defmodule OpenaiEx.Beta.Run do
   def cancel_run(openai = %OpenaiEx{}, thread_id, run_id) do
     openai
     |> Map.put(:beta, @beta_string)
-    |> OpenaiEx.Http.post("#{@base_url}/#{thread_id}/runs/#{run_id}/cancel")
+    |> OpenaiEx.Http.post("#{@base_url}/#{thread_id}/runs/#{run_id}/cancel", json: %{})
   end
 end
