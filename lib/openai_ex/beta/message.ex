@@ -92,5 +92,9 @@ defmodule OpenaiEx.Beta.Message do
     |> OpenaiEx.Http.get("#{@base_url}/#{thread_id}/messages/#{message_id}")
   end
 
-  # Additional functions can be added here for updating or deleting messages if the API allows these actions.
+  def list(openai = %OpenaiEx{}, thread_id) do
+    openai
+    |> Map.put(:beta, @beta_string)
+    |> OpenaiEx.Http.get("#{@base_url}/#{thread_id}/messages")
+  end
 end
